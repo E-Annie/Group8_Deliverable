@@ -24,7 +24,12 @@ public class WarPlayer extends Player {
     }
     
     public void setCardHand(ArrayList<Card> cardSet) {
-        this.cardHand = cardSet;
+        if (cardSet.size() != 26) {
+            throw new IllegalArgumentException("This card set is not valid."
+                + " Distributed card must be exactly half of the deck (26).");
+        } else {
+            this.cardHand = cardSet;
+        }
     }
     
     //method to pick cards from the player's deck of cards
@@ -38,6 +43,6 @@ public class WarPlayer extends Player {
     }
     
     public void play() {
-        
+        //taken from the WarGame class? If not let me know 
     }
 }
