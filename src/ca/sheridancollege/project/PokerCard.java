@@ -1,7 +1,7 @@
 /*
  * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
  * Date August 19, 2021
- * File name: WarPlayer.java
+ * File name: PockerCard.java
  *
  */
 

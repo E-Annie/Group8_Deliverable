@@ -1,7 +1,7 @@
 /*
  * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
  * Date August 19, 2021
- * File name: WarPlayer.java
+ * File name: WarGame.java
  *
  */
 
@@ -21,7 +21,6 @@ public class WarGame extends Game {
 
     public WarGame(String givenName) {
         super(givenName);
-        // TODO Auto-generated constructor stub
     }
 
     public static int WAR_CARD_NUMBER = 3;
@@ -34,14 +33,16 @@ public class WarGame extends Game {
         List<Card> war1 = new ArrayList<Card>();
         List<Card> war2 = new ArrayList<Card>();
 
-        //checking do players have enough (4)cards to stay in game
+        //checking if players have enough(4) cards to continue the game
         for (int x = 0; x < 3; x++) {
+            
             //either one player runs out of card is game over
             if (deck1.size() == 0 || deck2.size() == 0) {
                 break;
             }
 
-            System.out.println("War card for player1 is xx\nWar card for player2 is xx");
+            System.out.println("War card for player1 is xx\nWar card"
+                + "for player2 is xx");
 
             war1.add(deck1.pop());  //place additional card for war
             war2.add(deck2.pop());
@@ -73,12 +74,10 @@ public class WarGame extends Game {
     /**
      * When the game is over, use this method to declare and display a winning
      * player.
-     *
-     * @return
      */
     public void declareWinner() {
 
-        // use clone to prevent affect the priority of players.
+        // use clone to prevent affect the priority of players
         List<Player> players = (List<Player>) getPlayers().clone();
 
         // Only enough player attend the game will declare the winner.
@@ -157,7 +156,7 @@ public class WarGame extends Game {
     }
 
     private void compareCard() {
-
+        
     }
 
     private String getCardHand() {
