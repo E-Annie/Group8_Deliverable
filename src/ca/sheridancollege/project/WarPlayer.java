@@ -1,50 +1,73 @@
-/*@author E Hyun Kim 
-*/
+/*
+ * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
+ * Date August 19, 2021
+ * File name: WarPlayer.java
+ *
+ */
 
 package ca.sheridancollege.project;
 
 import java.util.ArrayList;
 
 public class WarPlayer extends Player {
-    
+
     //data members 
-    private ArrayList<Card> cardHand = new ArrayList(26); 
-    private final ArrayList<Card> handOutCards = new ArrayList(); 
-    
+    private ArrayList<Card> cardHand;
+    private ArrayList<Card> handOutCards;
+    private int roundStatus;
+
     //constructor 
     public WarPlayer(String name) {
-        super(name); 
+        super(name);
+        this.cardHand = new ArrayList<Card>(26);
+        handOutCards = new ArrayList<Card>();
     }
-    
+
+    public int getRoundStatus() {
+        return roundStatus;
+    }
+
+    public void setRoundStatus(int roundStatus) {
+        this.roundStatus = roundStatus;
+    }
+
     //no setter for handOutCards so duistributed cards cannot be changed 
     public ArrayList<Card> getHandOutCards() {
-        return handOutCards; 
+        return handOutCards;
     }
-    
+
     public ArrayList<Card> getCardHand() {
         return cardHand;
     }
-    
-    public void setCardHand(ArrayList<Card> cardSet) {
-        if (cardSet.size() != 26) {
-            throw new IllegalArgumentException("This card set is not valid."
-                + " Distributed card must be exactly half of the deck (26).");
+
+    public void addCardHand(ArrayList<Card> cardSet) {
+        if (cardSet.size() > 26) {
+            throw new IllegalArgumentException("The default card hand is "
+                    + "half of the deck (26), the player won't get cards "
+                    + "more then this number at once.");
         } else {
-            this.cardHand = cardSet;
+            this.cardHand.addAll(cardSet);
         }
     }
-    
+
     //method to pick cards from the player's deck of cards
-    public Card pickCard() {
-        
+    private Card pickCard() {
+
         //pick a random card in the deck
-        int random = (int)((Math.random() * 26) + 1);
-        
+        int random = (int) ((Math.random() * cardHand.size()) + 1);
+
         //returns the picked random Card object
-        return handOutCards.get(random);
+        return cardHand.remove(random);
     }
-    
+
     public void play() {
-        //taken from the WarGame class? If not let me know 
+        switch (roundStatus) {
+            case 1:
+                handOutCards.add(pickCard());
+            default:
+                for (int i = 0; i < WarGame.WAR_CARD_NUMBER; i++) {
+                    handOutCards.add(pickCard());
+                }
+        }
     }
 }
