@@ -58,6 +58,7 @@ public class WarPlayer extends Player {
         switch(roundStatus) {
         	case 1: 
         		handOutCards.add(pickCard());
+        		break;
         	default:
         		for(int i = 0; i < WarGame.WAR_CARD_NUMBER; i++) {
         			handOutCards.add(pickCard());
