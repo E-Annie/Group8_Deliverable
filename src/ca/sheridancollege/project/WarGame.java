@@ -182,7 +182,7 @@ public class WarGame extends Game {
 			for (int i = 1; i < players.size(); i++) {
 				WarPlayer wp = ((WarPlayer) players.get(i));
 				PokerCard newComparedCard = (PokerCard)wp.getHandOutCards().get(0);
-				if(newComparedCard.compareTo(comparedCard) > 1) {
+				if(newComparedCard.compareTo(comparedCard) > 0) {
 					winnerIndex = i;
 				} 
 			}
@@ -220,10 +220,10 @@ public class WarGame extends Game {
     
     private void receiveCards(int winnerIndex) {
     	List<Player> players = getPlayers();
-        WarPlayer wp1 = ((WarPlayer) players.get(1));
-        WarPlayer wp2 = ((WarPlayer) players.get(2));
+        WarPlayer wp1 = ((WarPlayer) players.get(0));
+        WarPlayer wp2 = ((WarPlayer) players.get(1));
 
-        if (winnerIndex == 1) {
+        if (winnerIndex == 0) {
             wp1.getCardHand().addAll(wp2.getHandOutCards());
             wp2.getHandOutCards().clear();
         } else {

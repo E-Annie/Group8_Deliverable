@@ -55,7 +55,7 @@ public class WarPlayer extends Player {
     private Card pickCard() {
 
         //pick a random card in the deck
-        int random = (int) ((Math.random() * cardHand.size()) + 1);
+        int random = (int) (Math.random() * cardHand.size());
 
         //returns the picked random Card object
         return cardHand.remove(random);
