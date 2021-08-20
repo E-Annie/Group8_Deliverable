@@ -23,19 +23,24 @@ public class WarGame extends Game {
     
     public void play() {
 		
-		// Delegate play operation to WarPlayer
-		for(Player player: getPlayers()) {
-			WarPlayer wp = (WarPlayer) player;
-			int wpRound = wp.getRoundStatus() + 1;
-			wp.setRoundStatus(wpRound);
-			wp.play();
+		if(checkWinner()) {
+	    	// Delegate play operation to WarPlayer
+			for(Player player: getPlayers()) {
+				WarPlayer wp = (WarPlayer) player;
+				int wpRound = wp.getRoundStatus() + 1;
+				wp.setRoundStatus(wpRound);
+				wp.play();
+			}
+			
+			// show card and compare
+			int winPlayerIndex = compareCard();
+			
+			// the player win the war accept the cards from the other players.
+			receiveCards(winPlayerIndex);
+		} else {
+			System.out.println("The winner appears!");
+			declareWinner();
 		}
-		
-		// show card and compare
-		int winPlayerIndex = compareCard();
-		
-		// the player win the war accept the cards from the other players.
-		receiveCards(winPlayerIndex);
     }    
 
     /**
@@ -171,6 +176,18 @@ public class WarGame extends Game {
             System.out.println("No enough players attend the War Game.");
         }
     	return result;
+    }
+    
+    private boolean checkWinner() {
+    	
+    	for (Player player: getPlayers()) {
+    		WarPlayer wp = (WarPlayer) player;
+    		if(wp.getCardHand().size() >= 0) {
+    			return true;
+    		}
+    	}
+    		
+    	return false;
     }
     
     private void receiveCards(int playerIndex) {
