@@ -35,8 +35,12 @@ public class WarGame extends Game {
 			// show card and compare
 			int winPlayerIndex = compareCard();
 			
-			// the player win the war accept the cards from the other players.
-			receiveCards(winPlayerIndex);
+			if(winPlayerIndex > -1) {
+				// the player win the war accept the cards from the other players.
+				receiveCards(winPlayerIndex);
+			} else { // result is tie and war continue.
+				play();
+			}
 		} else {
 			System.out.println("The winner appears!");
 			declareWinner();

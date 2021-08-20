@@ -8,6 +8,7 @@
 package ca.sheridancollege.project;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class WarPlayer extends Player {
 
@@ -68,6 +69,8 @@ public class WarPlayer extends Player {
                 for (int i = 0; i < WarGame.WAR_CARD_NUMBER; i++) {
                     handOutCards.add(pickCard());
                 }
+                // rotate to put new card in the first
+                Collections.rotate(handOutCards, WarGame.WAR_CARD_NUMBER);
         }
     }
 }
