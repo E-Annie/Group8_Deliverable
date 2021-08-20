@@ -28,7 +28,10 @@ public class WarGame extends Game {
     public void play() {
 		
 		if(checkWinner()) {
-	    	// Delegate play operation to WarPlayer
+			System.out.println("The winner appears!");
+			declareWinner();
+		} else {
+			// Delegate play operation to WarPlayer
 			for(Player player: getPlayers()) {
 				WarPlayer wp = (WarPlayer) player;
 				int wpRound = wp.getRoundStatus() + 1;
@@ -40,14 +43,17 @@ public class WarGame extends Game {
 			int winPlayerIndex = compareCard();
 			
 			if(winPlayerIndex > -1) {
+				System.out.println("Player "
+						+getPlayers().get(winPlayerIndex).getPlayerID() 
+						+" holds the card with higher value.");
 				// the player win the war accept the cards from the other players.
 				receiveCards(winPlayerIndex);
+				showCardHandNum();
+				
+				play();
 			} else { // result is tie and war continue.
 				play();
 			}
-		} else {
-			System.out.println("The winner appears!");
-			declareWinner();
 		}
     }    
 
@@ -170,6 +176,7 @@ public class WarGame extends Game {
 	private int compareCard() {
 		List<Player> players = getPlayers();
 		int winnerIndex = -1;
+		// read the hand out cards from the first player first.
 		ArrayList<Card> handOutCards = ((WarPlayer) players.get(0))
 				.getHandOutCards();
 		
@@ -177,14 +184,28 @@ public class WarGame extends Game {
 		// while there are cards in the hand out cards.
 		if(handOutCards.size() > 0) {
 			PokerCard comparedCard = (PokerCard) handOutCards.get(0);
+			// Message for the 1st player to play card.
+			System.out.println("The 1st card played by Player " 
+					+players.get(0).getPlayerID()
+					+ ": "+ comparedCard);
 			
 			// get the players, and their cards
 			for (int i = 1; i < players.size(); i++) {
 				WarPlayer wp = ((WarPlayer) players.get(i));
 				PokerCard newComparedCard = (PokerCard)wp.getHandOutCards().get(0);
-				if(newComparedCard.compareTo(comparedCard) > 0) {
+				// Message for the other player to play card.
+				System.out.println("The 1st card played by Player " 
+						+players.get(i).getPlayerID()
+						+ ": "+ newComparedCard);
+				
+				int result = newComparedCard.compareTo(comparedCard);
+				if(result > 0) {
 					winnerIndex = i;
-				} 
+				} else {
+					winnerIndex = (i - 1 < 0)? players.size(): i-1;
+				}
+				
+				comparedCard = newComparedCard;
 			}
 		}
 
@@ -210,7 +231,7 @@ public class WarGame extends Game {
     	
     	for (Player player : getPlayers()) {
     		WarPlayer wp = (WarPlayer) player;
-    		if (wp.getCardHand().size() >= 0) {
+    		if (wp.getCardHand().size() <= 0) {
     			return true;
     		}
     	}
@@ -224,11 +245,19 @@ public class WarGame extends Game {
         WarPlayer wp2 = ((WarPlayer) players.get(1));
 
         if (winnerIndex == 0) {
-            wp1.getCardHand().addAll(wp2.getHandOutCards());
+            wp1.addCardHand(wp2.getHandOutCards());
             wp2.getHandOutCards().clear();
         } else {
-            wp2.getCardHand().addAll(wp1.getHandOutCards());
+            wp2.addCardHand(wp1.getHandOutCards());
             wp1.getHandOutCards().clear();
         }
+    }
+    
+    private void showCardHandNum() {
+    	for(Player player: getPlayers() ) {
+    		WarPlayer wp = (WarPlayer) player;
+    		System.out.println("Player "+wp.getPlayerID()+ " has " 
+    				+ wp.getCardHand().size() + " cards.");
+    	}
     }
 }

@@ -19,21 +19,21 @@ public class PokerCard extends Card {
 
     @Override
     public java.lang.String toString() {
-         return value + "of" + suit;
+         return value + " of " + suit;
     }
 
     public int compareTo(PokerCard card) {
         //if  is equal to card suit 
+    	if (this.value.compareTo(card.value) > 1) {
+    		return 1;
+    	}
+    	if (this.value.compareTo(card.value) < 1) {
+    		return -1;
+    	}
         if (this.suit.compareTo(card.suit) > 1) {
             return 1;
         }
         if (this.suit.compareTo(card.suit) < 1) {
-            return -1;
-        }
-        if (this.value.compareTo(card.value) > 1) {
-            return 1;
-        }
-        if (this.value.compareTo(card.value) < 1) {
             return -1;
         }
         return 0;

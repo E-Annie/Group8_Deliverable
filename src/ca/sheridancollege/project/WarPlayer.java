@@ -20,7 +20,7 @@ public class WarPlayer extends Player {
     //constructor 
     public WarPlayer(String name) {
         super(name);
-        this.cardHand = new ArrayList<Card>(26);
+        this.cardHand = new ArrayList<Card>();
         handOutCards = new ArrayList<Card>();
     }
 
