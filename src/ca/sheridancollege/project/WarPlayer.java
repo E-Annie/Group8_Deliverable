@@ -64,13 +64,18 @@ public class WarPlayer extends Player {
     public void play() {
         switch (roundStatus) {
             case 1:
-                handOutCards.add(pickCard());
+            	if(cardHand.size() > 0) {
+            		handOutCards.add(pickCard());
+            	}
             default:
-                for (int i = 0; i < WarGame.WAR_CARD_NUMBER; i++) {
-                    handOutCards.add(pickCard());
-                }
+            	int pickedTime = 0;
+            	while (pickedTime < WarGame.WAR_CARD_NUMBER 
+            			&& cardHand.size() > 0) {
+            		handOutCards.add(pickCard());
+            		pickedTime++;
+            	}
                 // rotate to put new card in the first
-                Collections.rotate(handOutCards, WarGame.WAR_CARD_NUMBER);
+                Collections.rotate(handOutCards, pickedTime);
         }
     }
 }

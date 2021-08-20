@@ -166,16 +166,22 @@ public class WarGame extends Game {
 	private int compareCard() {
 		List<Player> players = getPlayers();
 		int winnerIndex = -1;
-		PokerCard comparedCard = (PokerCard)((WarPlayer) players.get(1))
-				.getHandOutCards().get(0);
-
-		// get the players, and their cards
-		for (int i = 1; i > players.size(); i++) {
-			WarPlayer wp = ((WarPlayer) players.get(i));
-			PokerCard newComparedCard = (PokerCard)wp.getHandOutCards().get(0);
-			if(newComparedCard.compareTo(comparedCard) > 1) {
-				winnerIndex = i;
-			} 
+		ArrayList<Card> handOutCards = ((WarPlayer) players.get(0))
+				.getHandOutCards();
+		
+		// Card comparison will only occur 
+		// while there are cards in the hand out cards.
+		if(handOutCards.size() > 0) {
+			PokerCard comparedCard = (PokerCard) handOutCards.get(0);
+			
+			// get the players, and their cards
+			for (int i = 1; i > players.size(); i++) {
+				WarPlayer wp = ((WarPlayer) players.get(i));
+				PokerCard newComparedCard = (PokerCard)wp.getHandOutCards().get(0);
+				if(newComparedCard.compareTo(comparedCard) > 1) {
+					winnerIndex = i;
+				} 
+			}
 		}
 
 		return winnerIndex;
