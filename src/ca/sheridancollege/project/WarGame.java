@@ -8,6 +8,7 @@
  * [2] War (card game). (2021, April 16). In Wikipedia. https://en.wikipedia.org/
  *  wiki/War_(card_game)
  */
+
 package ca.sheridancollege.project;
 
 import java.util.Collections;
@@ -212,14 +213,12 @@ public class WarGame extends Game {
         WarPlayer wp1 = ((WarPlayer) players.get(1));
         WarPlayer wp2 = ((WarPlayer) players.get(2));
 
-        PokerCard fPFC = (PokerCard) wp1.getCardHand().get(0);
-        PokerCard sPSC = (PokerCard) wp2.getCardHand().get(0);
         if (winnerIndex == 1) {
             wp1.getCardHand().addAll(wp2.getHandOutCards());
             wp2.getHandOutCards().clear();
         } else {
             wp2.getCardHand().addAll(wp1.getHandOutCards());
-            wp1.getHandOutCards().clear();;
+            wp1.getHandOutCards().clear();
         }
     }
 }
