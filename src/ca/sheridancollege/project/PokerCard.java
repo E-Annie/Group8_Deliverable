@@ -24,26 +24,26 @@ public class PokerCard extends Card {
 
     public int compareTo(PokerCard card) {
         //if  is equal to card suit 
-    	if (this.value.compareTo(card.value) > 1) {
+    	if (this.value.compareTo(card.value) > 0) {
     		return 1;
     	}
-    	if (this.value.compareTo(card.value) < 1) {
+    	if (this.value.compareTo(card.value) < 0) {
     		return -1;
     	}
-        if (this.suit.compareTo(card.suit) > 1) {
+        if (this.suit.compareTo(card.suit) > 0) {
             return 1;
         }
-        if (this.suit.compareTo(card.suit) < 1) {
+        if (this.suit.compareTo(card.suit) < 0) {
             return -1;
         }
         return 0;
     }
 
     public enum Suit {
-        SPADES, HEARTS, DIAMONDS, CLUBS
+    	CLUBS, DIAMONDS, HEARTS, SPADES
     }
 
     public enum Value {
-        ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING
+        TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
     }
 }

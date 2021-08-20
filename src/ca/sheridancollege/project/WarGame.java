@@ -242,17 +242,16 @@ public class WarGame extends Game {
     
     private void receiveCards(int winnerIndex) {
     	List<Player> players = getPlayers();
-        WarPlayer wp1 = ((WarPlayer) players.get(0));
-        WarPlayer wp2 = ((WarPlayer) players.get(1));
-
-        if (winnerIndex == 0) {
-            wp1.addCardHand(wp2.getHandOutCards());
-            wp2.getHandOutCards().clear();
-        } else {
-            wp2.addCardHand(wp1.getHandOutCards());
-            wp1.getHandOutCards().clear();
+        WarPlayer winner = ((WarPlayer) players.get(winnerIndex));
+        
+        for(Player player: players) {
+        	WarPlayer wp = (WarPlayer) player;
+        	winner.addCardHand(wp.getHandOutCards());
+        	wp.getHandOutCards().clear();
         }
     }
+    
+    
     
     private void showCardHandNum() {
     	for(Player player: getPlayers() ) {

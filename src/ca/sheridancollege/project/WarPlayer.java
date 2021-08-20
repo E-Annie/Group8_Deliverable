@@ -67,6 +67,7 @@ public class WarPlayer extends Player {
             	if(cardHand.size() > 0) {
             		handOutCards.add(pickCard());
             	}
+            	break;
             default:
             	int pickedTime = 0;
             	while (pickedTime < WarGame.WAR_CARD_NUMBER 
