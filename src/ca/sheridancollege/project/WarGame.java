@@ -8,7 +8,6 @@
  * [2] War (card game). (2021, April 16). In Wikipedia. https://en.wikipedia.org/
  *  wiki/War_(card_game)
  */
-
 package ca.sheridancollege.project;
 
 import java.util.Collections;
@@ -23,13 +22,29 @@ public class WarGame extends Game {
     }
 
     public static int WAR_CARD_NUMBER = 3;
-    
-    ArrayList<Card> cardHalf = new ArrayList(); 
-    ArrayList<Card> cardOtherHalf = new ArrayList();
-    
+    public static int MIN_PLAYER_NUM = 2;
+
     public void play() {
-        
-    }    
+
+        if (checkWinner()) {
+            // Delegate play operation to WarPlayer
+            for (Player player : getPlayers()) {
+                WarPlayer wp = (WarPlayer) player;
+                int wpRound = wp.getRoundStatus() + 1;
+                wp.setRoundStatus(wpRound);
+                wp.play();
+            }
+
+            // show card and compare
+            int winPlayerIndex = compareCard();
+
+            // the player win the war accept the cards from the other players.
+            receiveCards(winPlayerIndex);
+        } else {
+            System.out.println("The winner appears!");
+            declareWinner();
+        }
+    }
 
     /**
      * When the game is over, use this method to declare and display a winning
@@ -41,7 +56,7 @@ public class WarGame extends Game {
         List<Player> players = (List<Player>) getPlayers().clone();
 
         // Only enough player attend the game will declare the winner.
-        if (players.size() > 2) {
+        if (checkPlayerNum()) {
             // Rank players according to the hand of cards.
             Collections.sort(players, new Comparator<Player>() {
                 @Override
@@ -66,49 +81,53 @@ public class WarGame extends Game {
             } else {
                 System.out.println("Player " + wp1st.getPlayerID() + " WIN!");
             }
-        } else {
-            System.out.println("No enough players attend the War Game.");
         }
     }
-    
-    //Method to distibute the deck of card evenly between 2 players
-    public void distributeCards(WarPlayer playerOne, WarPlayer playerTwo) {
-        GroupOfCards cardArray = new GroupOfCards(); 
-        Deck deck = new Deck(52); 
-        cardArray.shuffle(); 
-        
-        //first half of the shuffled deck is given to player one
-        for(int i = 0; i < cardArray.showCards().size(); i++){
-            if (i < 26) {
-                cardHalf.add(cardArray.showCards().get(i)); 
-                playerOne.addCardHand(cardHalf); 
-            } else {
-                
-                //2nd half is given to player two
-                cardOtherHalf.add(cardArray.showCards().get(i)); 
-                playerOne.addCardHand(cardOtherHalf); 
+
+    public void distributeCards() {
+
+        // variable used in the method
+        GroupOfCards deck = new Deck(52);
+        ArrayList<Player> players = getPlayers();
+        int playerNum = players.size();
+
+        deck.shuffle();
+
+        // Check if the players number reach the minimum.
+        if (checkPlayerNum()) {
+
+            // take turn to distributed card to the player.
+            for (int i = 0; i < deck.showCards().size(); i++) {
+                // calculate which player is in turn to receive the card.
+                int playerIndex = i % playerNum;
+                WarPlayer wp = (WarPlayer) players.get(playerIndex);
+
+                // distribute card to the player
+                ArrayList<Card> distributedCard = new ArrayList<Card>();
+                distributedCard.add(deck.showCards().get(i));
+                wp.addCardHand(distributedCard);
             }
         }
- 
+
     }
-    
-    //Game guide using reference [1] and [2] 
+
+    //Game guide 
     public void guide() {
         System.out.println("Welcome to the ‘War’ card game! You will be playing"
-            + " with the computer and the first player to collect all 52 cards"
-            + "in the deck wins (Bicycle, n.d.).\n The computer will equally"
-            + " distributes the deck of cards, placing it face down"
-            + " (Bicycle, n.d.).\n The players (you and the computer) then"
-            + " simultaneously open one card each, and the higher card value"
-            + " wins and the player takes both cards faced down and adds it to"
-            + "the bottom of the cards he/she has (Bicycle, n.d.).\n If the cards"
-            + " are of the same value, ‘War’ begins; each player places 3 cards"
-            + " face down and then one face-up (“War (card game)”, 2021).\n The "
-            + "player with a higher card value wins all cards played and places"
-            + " it at the bottom of the deck; but, if face-up cards are of the"
-            + " same value again, the process of ‘War’ continues until one player"
-            + " has a higher card value (“War (card game)”, 2021). The player who"
-            + " has all the cards at the end wins (Bicycle, n.d.).");
+                + " with the computer and the first player to collect all 52 cards"
+                + "in the deck wins (Bicycle, n.d.).\n The computer will equally"
+                + " distributes the deck of cards, placing it face down"
+                + " (Bicycle, n.d.).\n The players (you and the computer) then"
+                + " simultaneously open one card each, and the higher card value"
+                + " wins and the player takes both cards faced down and adds it to"
+                + " the bottom of the cards he/she has (Bicycle, n.d.).\n If the cards"
+                + " are of the same value, ‘War’ begins; each player places 3 cards"
+                + " face down and then one face-up (“War (card game)”, 2021).\n The "
+                + "player with a higher card value wins all cards played and places"
+                + " it at the bottom of the deck; but, if face-up cards are of the"
+                + " same value again, the process of ‘War’ continues until one player"
+                + " has a higher card value (“War (card game)”, 2021). The player who"
+                + " has all the cards at the end wins (Bicycle, n.d.).");
     }
 
     public void endEarly() {
@@ -120,16 +139,15 @@ public class WarGame extends Game {
     }
 
     public void abort() {
-        System.exit(0);
         System.out.println("The War Game is aborted!");
-        // TODO whether ask users to restart?
+        System.exit(0);
     }
 
-    public void restart(WarPlayer playerOne, WarPlayer playerTwo) {
+    public void restart() {
         // clear all the cards on players' hand.
         resetPlayersStatus();
         // distribute cards again.
-        distributeCards(playerOne, playerTwo);
+        distributeCards();
 
         System.out.println("Game restart!");
     }
@@ -144,15 +162,64 @@ public class WarGame extends Game {
         }
     }
 
-    private void compareCard(int playerIndex) {
-        
+    private int compareCard() {
+        List<Player> players = getPlayers();
+        int winnerIndex = -1;
+        PokerCard comparedCard = (PokerCard) ((WarPlayer) players.get(1))
+                .getHandOutCards().get(0);
+
+        // get the players, and their cards
+        for (int i = 1; i > players.size(); i++) {
+            WarPlayer wp = ((WarPlayer) players.get(i));
+            PokerCard newComparedCard = (PokerCard) wp.getHandOutCards().get(0);
+            if (newComparedCard.compareTo(comparedCard) > 1) {
+                winnerIndex = i;
+            }
+        }
+
+        return winnerIndex;
     }
 
-    private String getCardHand() {
-        return null;
+    /* 
+     * Check if the players minimum reach and show message 
+     * if there is no enough player. 
+     */
+    private boolean checkPlayerNum() {
+
+        boolean result = false;
+        if (getPlayers().size() > MIN_PLAYER_NUM) {
+            result = true;
+        } else {
+            System.out.println("No enough players attend the War Game.");
+        }
+        return result;
     }
 
-    private void receiveCards(int playerIndex) {
-        
+    private boolean checkWinner() {
+
+        for (Player player : getPlayers()) {
+            WarPlayer wp = (WarPlayer) player;
+            if (wp.getCardHand().size() >= 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void receiveCards(int winnerIndex) {
+        List<Player> players = getPlayers();
+        WarPlayer wp1 = ((WarPlayer) players.get(1));
+        WarPlayer wp2 = ((WarPlayer) players.get(2));
+
+        PokerCard fPFC = (PokerCard) wp1.getCardHand().get(0);
+        PokerCard sPSC = (PokerCard) wp2.getCardHand().get(0);
+        if (winnerIndex == 1) {
+            wp1.getCardHand().addAll(wp2.getHandOutCards());
+            wp2.getHandOutCards().clear();
+        } else {
+            wp2.getCardHand().addAll(wp1.getHandOutCards());
+            wp1.getHandOutCards().clear();;
+        }
     }
 }

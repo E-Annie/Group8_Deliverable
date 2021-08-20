@@ -32,11 +32,11 @@ public class Main {
         warCardGame.setPlayers(playerArray);
         
         //distribute the shuffled card evenly between the two players
-        warCardGame.distributeCards((WarPlayer)playerArray.get(0),
-            (WarPlayer)playerArray.get(1));
+        warCardGame.distributeCards();
         
         //play the game 
         warCardGame.play(); 
+        warCardGame.declareWinner(); 
         
     }
    
