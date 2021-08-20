@@ -17,7 +17,20 @@ public class WarGame extends Game {
 	 * Play the game. This might be one method or many method calls depending on your game.
 	 */
 	public void play() {
-		throw new UnsupportedOperationException();
+		
+		// Delegate play operation to WarPlayer
+		for(Player player: getPlayers()) {
+			WarPlayer wp = (WarPlayer) player;
+			int wpRound = wp.getRoundStatus() + 1;
+			wp.setRoundStatus(wpRound);
+			wp.play();
+		}
+		
+		// show card and compare
+		int winPlayerIndex = compareCard();
+		
+		// the player win the war accept the cards from the other players.
+		receiveCards(winPlayerIndex);
 	}
 
 	/**
