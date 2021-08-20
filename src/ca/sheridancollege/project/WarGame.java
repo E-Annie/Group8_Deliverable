@@ -159,9 +159,23 @@ public class WarGame extends Game {
         }
     }
 
-    private int compareCard() {
-        return -1;
-    }
+	private int compareCard() {
+		List<Player> players = getPlayers();
+		int winnerIndex = -1;
+		PokerCard comparedCard = (PokerCard)((WarPlayer) players.get(1))
+				.getHandOutCards().get(0);
+
+		// get the players, and their cards
+		for (int i = 1; i > players.size(); i++) {
+			WarPlayer wp = ((WarPlayer) players.get(i));
+			PokerCard newComparedCard = (PokerCard)wp.getHandOutCards().get(0);
+			if(newComparedCard.compareTo(comparedCard) > 1) {
+				winnerIndex = i;
+			} 
+		}
+
+		return winnerIndex;
+	}
 
     /* 
      * Check if the players minimum reach and show message 
