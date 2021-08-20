@@ -10,7 +10,7 @@ package ca.sheridancollege.project;
  * @author dancye, 2018
  * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
  * Date August 19, 2021
- * File name: WarPlayer.java
+ * File name: Player.java
  *
  */
 public abstract class Player 

@@ -36,7 +36,6 @@ public class Main {
         
         //play the game 
         warCardGame.play(); 
-        warCardGame.declareWinner(); 
         
         //Restart the game 
         warCardGame.restart();
