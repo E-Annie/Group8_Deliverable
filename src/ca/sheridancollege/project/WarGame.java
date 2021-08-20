@@ -2,7 +2,11 @@
  * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
  * Date August 19, 2021
  * File name: WarGame.java
- *
+ * 
+ * References: 
+ * [1] Bicycle. (n.d). War. https://bicyclecards.com/how-to-play/war/
+ * [2] War (card game). (2021, April 16). In Wikipedia. https://en.wikipedia.org/
+ *  wiki/War_(card_game)
  */
 
 package ca.sheridancollege.project;
@@ -95,10 +99,10 @@ public class WarGame extends Game {
         deck.shuffle();
         
         // Check if the players number reach the minimum.
-        if(checkPlayerNum()) {
+        if (checkPlayerNum()) {
         	
         	// take turn to distributed card to the player.
-        	for(int i = 0; i < deck.showCards().size(); i++){
+        	for (int i = 0; i < deck.showCards().size(); i++) {
         		// calculate which player is in turn to receive the card.
         		int playerIndex = i % playerNum;
         		WarPlayer wp = (WarPlayer) players.get(playerIndex);
@@ -175,7 +179,7 @@ public class WarGame extends Game {
 			PokerCard comparedCard = (PokerCard) handOutCards.get(0);
 			
 			// get the players, and their cards
-			for (int i = 1; i > players.size(); i++) {
+			for (int i = 1; i < players.size(); i++) {
 				WarPlayer wp = ((WarPlayer) players.get(i));
 				PokerCard newComparedCard = (PokerCard)wp.getHandOutCards().get(0);
 				if(newComparedCard.compareTo(comparedCard) > 1) {
@@ -194,7 +198,7 @@ public class WarGame extends Game {
     private boolean checkPlayerNum() {
     	
     	boolean result = false;
-    	if (getPlayers().size() > MIN_PLAYER_NUM) {
+    	if (getPlayers().size() >= MIN_PLAYER_NUM) {
     		result = true;
         } else {
             System.out.println("No enough players attend the War Game.");
@@ -204,9 +208,9 @@ public class WarGame extends Game {
     
     private boolean checkWinner() {
     	
-    	for (Player player: getPlayers()) {
+    	for (Player player : getPlayers()) {
     		WarPlayer wp = (WarPlayer) player;
-    		if(wp.getCardHand().size() >= 0) {
+    		if (wp.getCardHand().size() >= 0) {
     			return true;
     		}
     	}
@@ -214,7 +218,17 @@ public class WarGame extends Game {
     	return false;
     }
     
-    private void receiveCards(int playerIndex) {
-        
+    private void receiveCards(int winnerIndex) {
+    	List<Player> players = getPlayers();
+        WarPlayer wp1 = ((WarPlayer) players.get(1));
+        WarPlayer wp2 = ((WarPlayer) players.get(2));
+
+        if (winnerIndex == 1) {
+            wp1.getCardHand().addAll(wp2.getHandOutCards());
+            wp2.getHandOutCards().clear();
+        } else {
+            wp2.getCardHand().addAll(wp1.getHandOutCards());
+            wp1.getHandOutCards().clear();
+        }
     }
 }

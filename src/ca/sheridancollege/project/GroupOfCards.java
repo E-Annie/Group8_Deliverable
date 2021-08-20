@@ -17,6 +17,7 @@ import java.util.Collections;
  * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
  * Date August 19, 2021
  */
+
 public class GroupOfCards 
 {
    
@@ -49,7 +50,7 @@ public class GroupOfCards
 		this.cards = cards;
 	}
 
-
+        
     /**
      * @return the size of the group of cards
      */
