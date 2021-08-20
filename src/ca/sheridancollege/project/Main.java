@@ -25,12 +25,20 @@ public class Main {
         playerArray.add(playerOne);
         playerArray.add(playerComp);
        
-        
+        //create a new war card game round
         WarGame warCardGame = new WarGame("War Game"); 
         
+        //assign the players to the war card game
         warCardGame.setPlayers(playerArray);
         
+        //distribute the shuffled card evenly between the two players
+        warCardGame.distributeCards((WarPlayer)playerArray.get(0),
+            (WarPlayer)playerArray.get(1));
+        
+        //play the game 
+        warCardGame.play(); 
         
     }
+   
 
 }

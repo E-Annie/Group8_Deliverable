@@ -13,7 +13,6 @@ package ca.sheridancollege.project;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -145,7 +144,7 @@ public class WarGame extends Game {
         }
     }
 
-    private void compareCard() {
+    private void compareCard(int playerIndex) {
         
     }
 
