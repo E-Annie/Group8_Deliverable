@@ -2,7 +2,11 @@
  * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
  * Date August 19, 2021
  * File name: WarGame.java
- *
+ * 
+ * References: 
+ * [1] Bicycle. (n.d). War. https://bicyclecards.com/how-to-play/war/
+ * [2] War (card game). (2021, April 16). In Wikipedia. https://en.wikipedia.org/
+ *  wiki/War_(card_game)
  */
 
 package ca.sheridancollege.project;
@@ -67,16 +71,21 @@ public class WarGame extends Game {
             System.out.println("No enough players attend the War Game.");
         }
     }
-
+    
+    //Method to distibute the deck of card evenly between 2 players
     public void distributeCards(WarPlayer playerOne, WarPlayer playerTwo) {
         GroupOfCards cardArray = new GroupOfCards(); 
         Deck deck = new Deck(52); 
+        cardArray.shuffle(); 
         
+        //first half of the shuffled deck is given to player one
         for(int i = 0; i < cardArray.showCards().size(); i++){
             if (i < 26) {
                 cardHalf.add(cardArray.showCards().get(i)); 
                 playerOne.addCardHand(cardHalf); 
             } else {
+                
+                //2nd half is given to player two
                 cardOtherHalf.add(cardArray.showCards().get(i)); 
                 playerOne.addCardHand(cardOtherHalf); 
             }
@@ -84,7 +93,7 @@ public class WarGame extends Game {
  
     }
     
-    //Game guide 
+    //Game guide using reference [1] and [2] 
     public void guide() {
         System.out.println("Welcome to the ‘War’ card game! You will be playing"
             + " with the computer and the first player to collect all 52 cards"
