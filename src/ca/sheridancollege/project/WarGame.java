@@ -11,65 +11,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-
 import java.util.ArrayList;
 
 public class WarGame extends Game {
-
-    LinkedList<Card> deck1 = new LinkedList<Card>();
-    LinkedList<Card> deck2 = new LinkedList<Card>();
 
     public WarGame(String givenName) {
         super(givenName);
     }
 
     public static int WAR_CARD_NUMBER = 3;
-
-    /**
-     * Play the game. This might be one method or many method calls depending on
-     * your game.
-     */
+    
+    ArrayList<Card> cardHalf = new ArrayList(); 
+    ArrayList<Card> cardOtherHalf = new ArrayList();
+    
     public void play() {
-        List<Card> war1 = new ArrayList<Card>();
-        List<Card> war2 = new ArrayList<Card>();
-
-        //checking if players have enough(4) cards to continue the game
-        for (int x = 0; x < 3; x++) {
-            
-            //either one player runs out of card is game over
-            if (deck1.size() == 0 || deck2.size() == 0) {
-                break;
-            }
-
-            System.out.println("War card for player1 is xx\nWar card"
-                + "for player2 is xx");
-
-            war1.add(deck1.pop());  //place additional card for war
-            war2.add(deck2.pop());
-        }
-
-        //only compare result when both players have enough cards for war
-        if (war1.size() == 3 && war2.size() == 3) {
-            //display the war cards from each player
-            System.out.println("War card for player1 is " + war1.get(0).toString());
-            System.out.println("War card for player2 is " + war2.get(0).toString());
-
-            // Collections.sort( players, new Comparator<Player>() {
-            //if player 1 wins the war round
-            if (((WarPlayer) war1).getCardHand().size() > ((WarPlayer) war2).getCardHand().size()) {
-                deck1.addAll(war1); //player1 get all 10 cards
-                deck1.addAll(war2);
-                System.out.println("Player 1 wins the war round");
-            }//end if
-            //otherwise player 2 wins the war round
-            else {
-                deck2.addAll(war1); //player2 get all 10 cards
-                deck2.addAll(war2);
-                System.out.println("Player 2 wins the war round");
-            }
-        }
-
-    }
+        
+    }    
 
     /**
      * When the game is over, use this method to declare and display a winning
@@ -111,15 +68,39 @@ public class WarGame extends Game {
         }
     }
 
-    public void distributeCards() {
-
-        // if(declareWinner()){
-        // 	getCardHand().addAll(wp1st);
-        // }
+    public void distributeCards(WarPlayer playerOne, WarPlayer playerTwo) {
+        GroupOfCards cardArray = new GroupOfCards(); 
+        Deck deck = new Deck(52); 
+        
+        for(int i = 0; i < cardArray.showCards().size(); i++){
+            if (i < 26) {
+                cardHalf.add(cardArray.showCards().get(i)); 
+                playerOne.addCardHand(cardHalf); 
+            } else {
+                cardOtherHalf.add(cardArray.showCards().get(i)); 
+                playerOne.addCardHand(cardOtherHalf); 
+            }
+        }
+ 
     }
-
+    
+    //Game guide 
     public void guide() {
-        throw new UnsupportedOperationException();
+        System.out.println("Welcome to the ‘War’ card game! You will be playing"
+            + " with the computer and the first player to collect all 52 cards"
+            + "in the deck wins (Bicycle, n.d.).\n The computer will equally"
+            + " distributes the deck of cards, placing it face down"
+            + " (Bicycle, n.d.).\n The players (you and the computer) then"
+            + " simultaneously open one card each, and the higher card value"
+            + " wins and the player takes both cards faced down and adds it to"
+            + "the bottom of the cards he/she has (Bicycle, n.d.).\n If the cards"
+            + " are of the same value, ‘War’ begins; each player places 3 cards"
+            + " face down and then one face-up (“War (card game)”, 2021).\n The "
+            + "player with a higher card value wins all cards played and places"
+            + " it at the bottom of the deck; but, if face-up cards are of the"
+            + " same value again, the process of ‘War’ continues until one player"
+            + " has a higher card value (“War (card game)”, 2021). The player who"
+            + " has all the cards at the end wins (Bicycle, n.d.).");
     }
 
     public void endEarly() {
@@ -136,11 +117,11 @@ public class WarGame extends Game {
         // TODO whether ask users to restart?
     }
 
-    public void restart() {
+    public void restart(WarPlayer playerOne, WarPlayer playerTwo) {
         // clear all the cards on players' hand.
         resetPlayersStatus();
         // distribute cards again.
-        distributeCards();
+        distributeCards(playerOne, playerTwo);
 
         System.out.println("Game restart!");
     }
@@ -164,6 +145,6 @@ public class WarGame extends Game {
     }
 
     private void receiveCards(int playerIndex) {
-        throw new UnsupportedOperationException();
+        
     }
 }

@@ -31,5 +31,6 @@ public class Deck extends GroupOfCards {
 			cards.remove((int)Math.random()*cards.size());
 		}
 		
+		setCards(cards);
 	}
 }

@@ -4,7 +4,6 @@
  * File name: PockerCard.java
  *
  */
-
 package ca.sheridancollege.project;
 
 public class PokerCard extends Card {
@@ -20,11 +19,24 @@ public class PokerCard extends Card {
 
     @Override
     public java.lang.String toString() {
-        throw new UnsupportedOperationException();
+         return value + "of" + suit;
     }
 
     public int compareTo(PokerCard card) {
-        throw new UnsupportedOperationException();
+        //if  is equal to card suit 
+        if (this.suit.compareTo(card.suit) > 1) {
+            return 1;
+        }
+        if (this.suit.compareTo(card.suit) < 1) {
+            return -1;
+        }
+        if (this.value.compareTo(card.value) > 1) {
+            return 1;
+        }
+        if (this.value.compareTo(card.value) < 1) {
+            return -1;
+        }
+        return 0;
     }
 
     public enum Suit {
