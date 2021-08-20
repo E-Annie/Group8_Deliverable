@@ -8,6 +8,10 @@ package ca.sheridancollege.project;
 /**
  * A class that models each Player in the game. Players have an identifier, which should be unique.
  * @author dancye, 2018
+ * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
+ * Date August 19, 2021
+ * File name: WarPlayer.java
+ *
  */
 public abstract class Player 
 {

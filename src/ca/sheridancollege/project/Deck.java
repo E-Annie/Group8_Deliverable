@@ -1,3 +1,10 @@
+/*
+ * @modifier Eduardo Rodriguez, E Hyun Kim, Maryam Hisam, Yi-Wen Chu
+ * Date August 19, 2021
+ * File name: Deck.java
+ *
+ */
+
 package ca.sheridancollege.project;
 
 import java.util.ArrayList;
