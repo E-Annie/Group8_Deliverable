@@ -83,6 +83,7 @@ public class WarGame extends Game {
                     return result;
                 }
             });
+            Collections.reverse(players);
 
             // Check if tie or declare the winner.
             WarPlayer wp1st = (WarPlayer) players.get(0),
