@@ -202,7 +202,7 @@ public class WarGame extends Game {
 				int result = newComparedCard.compareTo(comparedCard);
 				if(result > 0) {
 					winnerIndex = i;
-				} else {
+				} else if(result < 0) {
 					winnerIndex = (i - 1 < 0)? players.size(): i-1;
 				}
 				
